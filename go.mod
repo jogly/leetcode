@@ -1,3 +1,3 @@
-module github.com/jogly/leetcode
+module github.com/jogly/prim
 
 go 1.17
