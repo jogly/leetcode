@@ -1,3 +1,3 @@
-module github.com/jogly/prim
+module github.com/jogly/prim.go
 
 go 1.17
