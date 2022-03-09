@@ -1,6 +1,7 @@
 package ints
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"os"
@@ -16,7 +17,7 @@ func FprintCarets(w io.Writer, arr []int, carets ...int) {
 	numWidth := MaxWidth(arr)
 	sort.Ints(carets)
 	var c int
-	var b strings.Builder
+	var b bytes.Buffer
 
 	for i, a := range arr {
 		if i > 0 {
@@ -33,27 +34,17 @@ func FprintCarets(w io.Writer, arr []int, carets ...int) {
 		}
 	}
 	fatalw(w.Write([]byte{'\n'}))
-	fatalw(w.Write([]byte(b.String())))
+	fatalw(w.Write(b.Bytes()))
+}
+
+func SprintCarets(arr []int, carets ...int) string {
+	w := &strings.Builder{}
+	FprintCarets(w, arr, carets...)
+	return w.String()
 }
 
 func PrintCarets(arr []int, carets ...int) {
 	FprintCarets(os.Stdout, arr, carets...)
-}
-
-func Width(a int) int {
-	if a == 0 {
-		return 1
-	}
-	if a < 0 {
-		return Width(-a) + 1
-	}
-
-	var width int
-	for a > 0 {
-		a /= 10
-		width++
-	}
-	return width
 }
 
 func MaxWidth(arr []int) int {
@@ -62,7 +53,7 @@ func MaxWidth(arr []int) int {
 	}
 	var max int
 	for _, a := range arr {
-		max = Max(max, Width(a))
+		max = Max(max, Chars(a))
 	}
 	return max
 }
